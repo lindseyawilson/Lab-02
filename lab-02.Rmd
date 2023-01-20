@@ -1,7 +1,7 @@
 ---
 title: "Lab 02 - Plastic waste"
-author: "Insert your name here"
-date: "Insert date here"
+author: Lindsey Wilson
+date: 1/19/23
 output: github_document
 ---
 
@@ -19,17 +19,61 @@ plastic_waste <- read.csv("data/plastic-waste.csv")
 
 ### Exercise 1
 
-Remove this text, and add your answer for Exercise 1 here.
+Here we have the plastic waste per capita separated by continent
 
 ```{r plastic-waste-continent}
-# insert code here
+ggplot(
+  data = plastic_waste,
+  aes(x = plastic_waste_per_cap),
+  color = continent) +
+  geom_histogram(binwidth = 0.2) +
+  facet_wrap(~ continent)
 ```
 
 ### Exercise 2
 
-```{r plastic-waste-density}
-# insert code here
+#### 2.1
+
+If we include all of the countries, the plot looks like this:
+
+```{r plastic-waste-density-all}
+ggplot(data = plastic_waste, 
+       mapping = aes(x = plastic_waste_per_cap, 
+                     color = continent, 
+                     fill = continent)) +
+  geom_density(alpha = 0.1)
 ```
+
+But the one outlier point on the far right is still throwing things off.
+By running this code, we can identify that data point as coming from Trinidad & Tobago:
+
+```{r outlier-ID}
+plastic_waste %>%
+  filter(plastic_waste_per_cap > 3.5)
+```
+
+The plot might be a little more useful if we filter Trinidad & Tobago out.
+We've done that below:
+
+```{r plastic-waste-density-filtered}
+plastic_waste_filtered <- plastic_waste %>%
+  filter(code != "TTO")
+
+ggplot(data = plastic_waste_filtered, 
+       mapping = aes(x = plastic_waste_per_cap, 
+                     color = continent, 
+                     fill = continent)) +
+  geom_density(alpha = 0.1)
+```
+
+#### 2.2
+
+`color` and `fill` are defined by mapping aesthetics of the plot because we want them to agree.
+For example, if North America is assigned a red `color`, we don't want the `fill` to be green or violet because that wouldn't really make visual sense.
+Defining those two characteristics as properties of the plot makes sure that they always agree, and allows us to play around with the type of visualization we want to use without breaking that binding.
+
+In contrast `alpha` is a property of the geom because opacity is a characteristic we only want to change about the curves.
+We don't want our axes or our legend to be transparent; we only want that property to be applied to the density plots.
 
 ### Exercise 3
 
