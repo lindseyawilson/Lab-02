@@ -67,7 +67,8 @@ plastic_waste %>%
     ## 1   1341465
 
 The plot might be a little more useful if we filter Trinidad & Tobago
-out. We’ve done that below:
+out. We’ve done that below (and will continue to do that for the
+remaining plots):
 
 ``` r
 plastic_waste_filtered <- plastic_waste %>%
@@ -88,7 +89,7 @@ ggplot(data = plastic_waste_filtered,
 
 `color` and `fill` are defined by mapping aesthetics of the plot because
 they’re meaningful; we want them to be mapped to the `continent`
-variable Defining those two characteristics as properties of the plot
+variable. Defining those two characteristics as properties of the plot
 makes sure that they always agree, and allows us to play around with the
 type of visualization we want to use without breaking that binding.
 
@@ -99,15 +100,28 @@ more transparent than the curve for Africa.
 
 ### Exercise 3
 
-Remove this text, and add your answer for Exercise 3 here.
+Lets’ try next to represent out data as a set of violin plots. These
+differ from box plots because, while a boxplot only shows summary
+statistics, violin plots show summary stats *and* the density of the
+data at each point along the y-axis.
 
-### Exercise 4
-
-Remove this text, and add your answer for Exercise 4 here.
+Below we have our data represented with violin plots:
 
 ``` r
-# insert code here
+ggplot(data = plastic_waste_filtered,
+       mapping = aes(x = continent,
+                     y = plastic_waste_per_cap,
+                     color = continent,
+                     fill = continent)) + 
+  geom_violin()
 ```
+
+    ## Warning: Removed 51 rows containing non-finite values (`stat_ydensity()`).
+
+![](lab-02_files/figure-gfm/plastic-waste-violin-1.png)<!-- --> \###
+Exercise 4
+
+Remove this text, and add your answer for Exercise 4 here.
 
 ### Exercise 5
 
