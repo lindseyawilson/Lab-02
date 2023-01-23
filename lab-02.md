@@ -100,10 +100,10 @@ more transparent than the curve for Africa.
 
 ### Exercise 3
 
-Lets’ try next to represent out data as a set of violin plots. These
+Let’s try next to represent out data as a set of violin plots. These
 differ from box plots because, while a boxplot only shows summary
-statistics, violin plots show summary stats *and* the density of the
-data at each point along the y-axis.
+statistics, violin plots show the density of the data at each point
+along the y-axis.
 
 Below we have our data represented with violin plots:
 
@@ -123,8 +123,7 @@ Exercise 4
 
 #### 4.1
 
-Let’s now try plotting the data as a scatterplot. Initially when we do
-this, the plot looks like this.
+Let’s now try plotting the data as a scatterplot:
 
 ``` r
 ggplot(data = plastic_waste_filtered,
@@ -147,7 +146,7 @@ cor(plastic_waste_filtered$plastic_waste_per_cap, plastic_waste_filtered$mismana
 
     ## [1] 0.0822064
 
-So the relationship isn’t terrible strong, but it is positive. As you
+So the relationship isn’t terribly strong, but it is positive. As you
 increase the amount of plastic waste per person, you also increase the
 amount of that plastic waste that’s mismanaged.
 
@@ -176,17 +175,59 @@ about mismanagement. This doesn’t mean European countries aren’t
 generating plastic waste, but not much of it is mismanaged once it is
 produced
 
-### Exercise 7
+#### 4.3
 
-Remove this text, and add your answer for Exercise 7 here.
-
-``` r
-# insert code here
-```
+We can visualize other relationships in the data as well. For example,
+we can plot plastic waste per capita against total population (after
+filtering out some population outliers to make things less compressed)
 
 ``` r
-# insert code here
+ggplot(data = filter(plastic_waste_filtered, total_pop < 1e9),
+       mapping = aes(x = total_pop,
+                     y = plastic_waste_per_cap,
+                     color = continent)) + 
+  geom_point()
 ```
+
+    ## Warning: Removed 51 rows containing missing values (`geom_point()`).
+
+![](lab-02_files/figure-gfm/plastic-waste-population-total-1.png)<!-- -->
+
+And plastic waste per capita against coastal population (again, sans
+outliers):
+
+``` r
+ggplot(data = filter(plastic_waste_filtered, coastal_pop < 1.5e8),
+       mapping = aes(x = coastal_pop,
+                     y = plastic_waste_per_cap,
+                     color = continent)) + 
+  geom_point()
+```
+
+![](lab-02_files/figure-gfm/plastic-waste-population-coastal-1.png)<!-- -->
+
+On visual inspection it doesn’t look like either of these sets of
+variables are more strongly linearly correlated than the other, but we
+can check this by directly calculating the correlation coefficient for
+both and comparing them:
+
+``` r
+#correlation between total population and plastic waste per capita
+cor(plastic_waste_filtered$total_pop, plastic_waste_filtered$plastic_waste_per_cap,
+    use = "complete.obs")
+```
+
+    ## [1] -0.1283867
+
+``` r
+#correlation between coastal population and plastic waste per capita
+cor(plastic_waste_filtered$coastal_pop, plastic_waste_filtered$plastic_waste_per_cap,
+    use = "complete.obs")
+```
+
+    ## [1] -0.1286294
+
+So it looks like both associations are effectively the same strength.
 
 ### Exercise 8
 
