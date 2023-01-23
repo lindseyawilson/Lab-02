@@ -113,7 +113,7 @@ ggplot(data = plastic_waste_filtered,
                      y = plastic_waste_per_cap,
                      color = continent,
                      fill = continent)) + 
-  geom_violin()
+  geom_violin(alpha = 0.5)
 ```
 
     ## Warning: Removed 51 rows containing non-finite values (`stat_ydensity()`).
@@ -121,23 +121,60 @@ ggplot(data = plastic_waste_filtered,
 ![](lab-02_files/figure-gfm/plastic-waste-violin-1.png)<!-- --> \###
 Exercise 4
 
-Remove this text, and add your answer for Exercise 4 here.
+#### 4.1
 
-### Exercise 5
-
-Remove this text, and add your answer for Exercise 5 here.
-
-``` r
-# insert code here
-```
-
-### Exercise 6
-
-Remove this text, and add your answer for Exercise 6 here.
+Let’s now try plotting the data as a scatterplot. Initially when we do
+this, the plot looks like this.
 
 ``` r
-# insert code here
+ggplot(data = plastic_waste_filtered,
+       mapping = aes(x = plastic_waste_per_cap,
+                     y = mismanaged_plastic_waste_per_cap)) + 
+  geom_point()
 ```
+
+    ## Warning: Removed 51 rows containing missing values (`geom_point()`).
+
+![](lab-02_files/figure-gfm/plastic_waste_scatterplot-1.png)<!-- -->
+
+This looks like a pretty strong positive correlation, and we can confirm
+this directly:
+
+``` r
+cor(plastic_waste_filtered$plastic_waste_per_cap, plastic_waste_filtered$mismanaged_plastic_waste_per_cap, 
+    use = "complete.obs")
+```
+
+    ## [1] 0.0822064
+
+So the relationship isn’t terrible strong, but it is positive. As you
+increase the amount of plastic waste per person, you also increase the
+amount of that plastic waste that’s mismanaged.
+
+#### 4.2
+
+We might gain some additional insights if we color the data points by
+continent:
+
+``` r
+ggplot(data = plastic_waste_filtered,
+       mapping = aes(x = plastic_waste_per_cap,
+                     y = mismanaged_plastic_waste_per_cap,
+                     color = continent)) + 
+  geom_point()
+```
+
+    ## Warning: Removed 51 rows containing missing values (`geom_point()`).
+
+![](lab-02_files/figure-gfm/plastic-waste-mismanaged-continent-1.png)<!-- -->
+
+From this we can see that continents appear to differ in how bad they
+are about mismanagement. African countries, for example, seem to be
+pretty bad about it; for every unit of plastic waste generated, a lot of
+it seems to get mismanaged. In contrast, Europe seems to be pretty good
+about mismanagement. This doesn’t mean European countries aren’t
+generating plastic waste, but not much of it is mismanaged once it is
+produced
 
 ### Exercise 7
 
