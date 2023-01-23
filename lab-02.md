@@ -87,17 +87,15 @@ ggplot(data = plastic_waste_filtered,
 #### 2.2
 
 `color` and `fill` are defined by mapping aesthetics of the plot because
-we want them to agree. For example, if North America is assigned a red
-`color`, we don’t want the `fill` to be green or violet because that
-wouldn’t really make visual sense. Defining those two characteristics as
-properties of the plot makes sure that they always agree, and allows us
-to play around with the type of visualization we want to use without
-breaking that binding.
+they’re meaningful; we want them to be mapped to the `continent`
+variable Defining those two characteristics as properties of the plot
+makes sure that they always agree, and allows us to play around with the
+type of visualization we want to use without breaking that binding.
 
-In contrast `alpha` is a property of the geom because opacity is a
-characteristic we only want to change about the curves. We don’t want
-our axes or our legend to be transparent; we only want that property to
-be applied to the density plots.
+In contrast `alpha` is a property of the geom because we want it to be
+the same for all of the curves; we don’t want it to be based on a
+variable. For example, we don’t want the curve for North America to be
+more transparent than the curve for Africa.
 
 ### Exercise 3
 
