@@ -6,7 +6,9 @@ Lindsey Wilson
 ## Load packages and data
 
 ``` r
-library(tidyverse) 
+library(tidyverse)
+oldw = getOption("warn")
+options(warn = -1)
 ```
 
 ``` r
@@ -28,8 +30,6 @@ ggplot(
   facet_wrap(~ continent)
 ```
 
-    ## Warning: Removed 51 rows containing non-finite values (`stat_bin()`).
-
 ![](lab-02_files/figure-gfm/plastic-waste-continent-1.png)<!-- -->
 
 ### Exercise 2
@@ -45,8 +45,6 @@ ggplot(data = plastic_waste,
                      fill = continent)) +
   geom_density(alpha = 0.1)
 ```
-
-    ## Warning: Removed 51 rows containing non-finite values (`stat_density()`).
 
 ![](lab-02_files/figure-gfm/plastic-waste-density-all-1.png)<!-- -->
 
@@ -81,8 +79,6 @@ ggplot(data = plastic_waste_filtered,
   geom_density(alpha = 0.1)
 ```
 
-    ## Warning: Removed 51 rows containing non-finite values (`stat_density()`).
-
 ![](lab-02_files/figure-gfm/plastic-waste-density-filtered-1.png)<!-- -->
 
 #### 2.2
@@ -116,8 +112,6 @@ ggplot(data = plastic_waste_filtered,
   geom_violin(alpha = 0.5)
 ```
 
-    ## Warning: Removed 51 rows containing non-finite values (`stat_ydensity()`).
-
 ![](lab-02_files/figure-gfm/plastic-waste-violin-1.png)<!-- --> \###
 Exercise 4
 
@@ -131,8 +125,6 @@ ggplot(data = plastic_waste_filtered,
                      y = mismanaged_plastic_waste_per_cap)) + 
   geom_point()
 ```
-
-    ## Warning: Removed 51 rows containing missing values (`geom_point()`).
 
 ![](lab-02_files/figure-gfm/plastic_waste_scatterplot-1.png)<!-- -->
 
@@ -163,8 +155,6 @@ ggplot(data = plastic_waste_filtered,
   geom_point()
 ```
 
-    ## Warning: Removed 51 rows containing missing values (`geom_point()`).
-
 ![](lab-02_files/figure-gfm/plastic-waste-mismanaged-continent-1.png)<!-- -->
 
 From this we can see that continents appear to differ in how bad they
@@ -188,8 +178,6 @@ ggplot(data = filter(plastic_waste_filtered, total_pop < 1e9),
                      color = continent)) + 
   geom_point()
 ```
-
-    ## Warning: Removed 51 rows containing missing values (`geom_point()`).
 
 ![](lab-02_files/figure-gfm/plastic-waste-population-total-1.png)<!-- -->
 
@@ -229,10 +217,29 @@ cor(plastic_waste_filtered$coastal_pop, plastic_waste_filtered$plastic_waste_per
 
 So it looks like both associations are effectively the same strength.
 
-### Exercise 8
+### Exercise 5
 
-Remove this text, and add your answer for Exercise 8 here.
+#### 5.1
+
+Here’s my recreation of the plot given in the lab:
 
 ``` r
-# insert code here
+ggplot(data = filter(plastic_waste, plastic_waste_per_cap < 3),
+                     mapping = aes(x = (coastal_pop/total_pop),
+                                   y = plastic_waste_per_cap,
+                                   color = continent)) + 
+         geom_point() + 
+         geom_smooth(color="black") + 
+  labs(x = "Coastal Population Proportion (Coastal/Total Population)",
+       y = "Plastic Waste per Capita",
+       title = "Plastic. Waste vs. Coastal Population Proportion",
+       subtitle = "By Continent")
+```
+
+    ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+
+![](lab-02_files/figure-gfm/recreate-viz-1.png)<!-- -->
+
+``` r
+options(warn = oldw)
 ```

@@ -8,7 +8,9 @@ output: github_document
 ## Load packages and data
 
 ```{r load-packages, message=FALSE}
-library(tidyverse) 
+library(tidyverse)
+oldw = getOption("warn")
+options(warn = -1)
 ```
 
 ```{r load-data, message=FALSE}
@@ -167,12 +169,25 @@ cor(plastic_waste_filtered$coastal_pop, plastic_waste_filtered$plastic_waste_per
 
 So it looks like both associations are effectively the same strength.
 
-### Exercise 8
+### Exercise 5
 
-Remove this text, and add your answer for Exercise 8 here.
+#### 5.1
+
+Here's my recreation of the plot given in the lab:
 
 ```{r recreate-viz}
-# insert code here
+ggplot(data = filter(plastic_waste, plastic_waste_per_cap < 3),
+                     mapping = aes(x = (coastal_pop/total_pop),
+                                   y = plastic_waste_per_cap,
+                                   color = continent)) + 
+         geom_point() + 
+         geom_smooth(color="black") + 
+  labs(x = "Coastal Population Proportion (Coastal/Total Population)",
+       y = "Plastic Waste per Capita",
+       title = "Plastic. Waste vs. Coastal Population Proportion",
+       subtitle = "By Continent")
+
+options(warn = oldw)
 ```
 
 
